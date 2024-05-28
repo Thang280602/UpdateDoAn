@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.lowagie.text.DocumentException;
 import com.otothang.ExportPDF.OrderDetailExportData;
+import freemarker.template.TemplateException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,18 +57,17 @@ public class OrderAdminController {
 		return "redirect:/admin/order";
 	}
 	@GetMapping("/export/pdf")
-	public void exportToPDF(HttpServletResponse response, @RequestParam("id") Integer id) throws DocumentException, IOException {
+	public void exportToPDF(HttpServletResponse response, @RequestParam("id") Integer id) throws DocumentException, IOException, TemplateException {
 		response.setContentType("application/pdf");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
 
 		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		String headerValue = "attachment; filename=order_" + currentDateTime + ".pdf";
 		response.setHeader(headerKey, headerValue);
+
 		Order order = this.orderSevice.findById(id);
-
-		OrderDetailExportData exporter = new OrderDetailExportData(order,orderDetail);
+		OrderDetailExportData exporter = new OrderDetailExportData(order, orderDetail);
 		exporter.export(response);
-
 	}
 }
