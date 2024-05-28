@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragments/head::head">
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+
+		<div th:replace="admin/fragments/header::header"></div>
+
+		<!-- =============================================== -->
+
+		<!-- Left side column. contains the sidebar -->
+		<div th:replace="admin/fragments/aside::aside"></div>
+		<!-- =============================================== -->
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+
+
+			<!-- Main content -->
+			<section class="invoice">
+
+				<div class="row">
+					<div class="col-xs-12">
+						<h2 class="page-header">
+							<i class="fa fa-globe"></i> AdminLTE, Inc.
+							<small class="pull-right">Date: 2/10/2014</small>
+						</h2>
+					</div>
+
+				</div>
+
+				<div class="row invoice-info">
+					<div class="col-sm-6 invoice-col">
+						From
+						<address>
+							<strong>Shop: Car For You</strong><br>
+							<strong>Address: Nam Dinh</strong><br>
+							<strong>Phone: 0794 070 559</strong><br>
+							<strong>Email: dhtcntt03@gmail.com</strong><br>
+						</address>
+					</div>
+
+					<div class="col-sm-6 invoice-col">
+						To
+						<address>
+							<strong th:text="${order.user.userName}"></strong><br>
+							<span th:text="${order.addressShip}"></span><br>
+							<span th:text="${order.phone}"></span><br>
+							Email: <span th:text="${order.user.email}"></span><br>
+						</address>
+					</div>
+
+
+
+				</div>
+
+
+				<div class="row">
+					<div class="col-xs-12 table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Quantity</th>
+									<th>ProductName</th>
+									<th>Price</th>
+									<th>Subtotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="item:${list}">
+									<td th:text="${item.quantity}"></td>
+									<td th:text="${item.product.productName}">Call of Duty</td>
+									<td th:text="${item.price}"></td>
+									<td th:text="${item.price*item.quantity	}"></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col-xs-6">
+						<label>Update Status :</label>
+						<form th:action="@{/admin/updateOrder}" method="post">
+							<input type="hidden" th:value="${id}" name="id" />
+							<select class="form-control" name="status">
+
+								<option value="0">Chờ xác nhận</option>
+
+
+
+								<option value="1">Đã duyệt</option>
+
+
+
+								<option value="2">Đang giao hàng</option>
+
+
+
+								<option value="3">Giang hàng thành công</option>
+
+
+
+							</select>
+							<button type="submit" class="btn btn-success pull-right" style="margin-top:5%">Update
+							</button>
+						</form>
+					</div>
+
+
+
+
+				<div class="row no-print">
+					<div class="col-xs-12">
+						<input type="hidden" th:value="${id}" name="id" />
+
+						<button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i>
+							Submit Payment
+						</button>
+						<button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
+							<i class="fa fa-download"></i><a th:href="@{/admin/export/pdf(id=${order.id})}" style="color: white"> Generate PDF</a>
+						</button>
+					</div>
+				</div>
+			</section>
+
+			<!-- Default box -->
+			<div class="box">
+
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer">
+			</div>
+			<!-- /.box-footer-->
+		</div>
+		<!-- /.box -->
+
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+
+	<div th:replace="admin/fragments/footer::footer"></div>
+
+	</div>
+
+	<div th:replace="admin/fragments/script::script"></div>
+
+</body>
+
+</html>
